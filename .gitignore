@@ -1,0 +1,29 @@
+**.swp
+**.terraform
+**tfstate
+**.tfout
+.terraform.lock.hcl
+tmp/
+__pycache__
+#cloudgoat
+cloudgoat.pub
+output.txt
+.DS_Store
+
+# Configuration files:
+config.yml
+whitelist.txt
+
+# Scenario instance directories and their trash directory:
+*_cgid*/
+trash/
+
+# Editors
+.idea
+.sw[a-z]
+
+# Python virtual environment
+.venv
+.vscode/settings.json
+venv/
+myenv/

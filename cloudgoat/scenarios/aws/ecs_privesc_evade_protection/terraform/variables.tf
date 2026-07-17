@@ -1,0 +1,37 @@
+
+
+variable "region" {
+  description = "The AWS region to deploy resources to."
+  default     = "us-east-1"
+  type        = string
+}
+
+variable "cgid" {
+  description = "CGID variable for unique naming."
+  type        = string
+  default     = "lab"
+}
+
+variable "cg_whitelist" {
+  description = "User's public IP address(es)."
+  type        = list(string)
+  default     = ["127.0.0.1/24"]
+}
+
+variable "stack-name" {
+  description = "Name of the stack."
+  default     = "CloudGoat"
+  type        = string
+}
+
+variable "scenario-name" {
+  description = "Name of the scenario."
+  default     = "ecs_privesc_evade_protection"
+  type        = string
+}
+
+variable "user_email" {
+  description = "Once guardduty detects attack, a mail will be sent to you"
+  type        = string
+}
+
