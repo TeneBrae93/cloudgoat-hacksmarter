@@ -8,7 +8,7 @@ packages = [{include = "cloudgoat"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-argcomplete = "~3.6.0"
+argcomplete = ">=3.6,<3.8"
 PyYAML = "~6.0.2"
 boto3 = ">=1.37.11,<1.43.0"
 requests = "~2.32.3"
