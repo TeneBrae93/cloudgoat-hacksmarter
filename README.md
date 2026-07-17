@@ -18,6 +18,42 @@ _CloudGoat is Rhino Security Labs' "Vulnerable by Design" cloud deployment tool.
 - **Maintained by**:
 [the CloudGoat Community](https://github.com/RhinoSecurityLabs/cloudgoat)
 
+# CourseStack Integration & Redesign
+
+These labs are based on the original **Rhino Security Labs CloudGoat** scenarios, but their Terraform configurations have been redesigned so they can be easily hosted and run on **CourseStack**.
+
+## CourseStack Setup Instructions
+Each scenario folder under `cloudgoat/scenarios/aws/` contains a pre-packaged `<scenario_name>.zip` file.
+To host a scenario on CourseStack:
+1. Locate the `.zip` file inside the desired scenario folder (e.g. `cloudgoat/scenarios/aws/iam_enum_basics/iam_enum_basics.zip`).
+2. Upload this `.zip` file directly into your CourseStack lab deployment configuration.
+3. CourseStack will automatically provision the resources, handle the region settings, and display the starting credentials.
+
+## Standardized Outputs
+To align with the CourseStack GUI and sorting requirements:
+* **`access_key`** and **`secret_key`**: All starting credential outputs are named exactly `access_key` and `secret_key`. This guarantees they display cleanly in the CourseStack GUI (alphabetically sorted, with the Access Key on top) without any prefixes.
+* **No `sensitive = true` restrictions**: All starting credential secrets are exposed (wrapped with `nonsensitive()`) so they display correctly to the student in the CourseStack console.
+
+## Packaging and Scenario Modding (`convert_all.py`)
+If you want to edit a scenario's Terraform code or make adjustments to the configurations, you will need to repackage the `.zip` file for CourseStack. 
+
+A custom Python script has been added to handle this automatically: [convert_all.py](file:///home/tyler/dev/cloud-labs/cloudgoat/cloudgoat/scenarios/aws/convert_all.py).
+
+### How the Script Works:
+When you run `python3 convert_all.py` from the `cloudgoat/scenarios/aws/` directory, it will loop through all scenarios and perform the following migrations:
+1. **Self-Contained Bundling**: CourseStack runs `terraform apply` in an isolated environment. The script finds any external references to `../assets/`, `../cloudgoat`, or `../whitelist.txt`, copies those files/keys directly into the local `terraform/` directory, and rewrites the references in the `.tf` files to point locally, ensuring the zipped bundle is completely self-contained.
+2. **Provider to `main.tf` Migration**: It deletes `provider.tf`, strips any hardcoded AWS user profiles, configures the region to default to `"us-east-1"`, and writes a clean, CourseStack-compatible `main.tf` file.
+3. **Sensitive Output Exposure**: It wraps any `.secret` access keys in `nonsensitive()` and overrides any `sensitive = true` properties.
+4. **Alphabetical Key Renaming**: It automatically detects the starting access key resource and renames its output blocks to `access_key` and `secret_key`.
+5. **Transient Cleanup**: Once the `.zip` is generated, the script automatically removes the copied `assets/`, generated SSH keypair, and `whitelist.txt` files from the working directory, keeping the Git status perfectly clean.
+
+### Usage:
+To repackage all scenarios after making changes:
+```bash
+cd cloudgoat/scenarios/aws
+python3 convert_all.py
+```
+
 # CloudGoat 2.0 is here!
 
 CloudGoat is Rhino Security Labs' "Vulnerable by Design" cloud deployment tool. It allows you to hone your cloud cybersecurity skills by creating and completing several "capture-the-flag" style scenarios. Each scenario is composed of cloud resources arranged together to create a structured learning experience. Some scenarios are easy, some are hard, and many offer multiple paths to victory. As the attacker, it is your mission to explore the environment, identify vulnerabilities, and exploit your way to the scenario's goal(s).
