@@ -1,0 +1,6 @@
+- name: iam_pmapper
+- author: Tyler Ramsbey
+- version: 1.0.0
+- help: |
+        This configuration provisions an AWS lab environment designed for IAM enumeration and privilege escalation tracking via Principal Mapper (pmapper). The student must identify an intermediate user among many decoys and exploit a Lambda PassRole vector.
+- last-updated: 07-20-2026
