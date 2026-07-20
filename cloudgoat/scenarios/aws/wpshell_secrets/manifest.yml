@@ -1,0 +1,19 @@
+---
+  # The name of the scenario, alpha-numeric characters only, and underscore-separated
+- name: wpshell_secrets
+  # The name of the author(s), comma separated
+- author: Rhino Security Labs
+  # The version of the scenario, where major versions are breaking changes and minor are small fixes.
+- version: 1.0
+  # Text displayed to the user when they type "{{ scenario_name }} help"
+- help: |
+        Starting as the IAM user pentest, the attacker discovers permissions to inspect Lambda 
+        configuration. From the environment variables of a Lambda function, they retrieve 
+        credentials for a lambda-manager user, allowing S3 access. Within an S3 script bucket, 
+        they find credentials for a wp-manager user, who has permissions to read EC2 instances. 
+        After discovering a WordPress instance, they exploit the wp2shell vulnerability chain to 
+        obtain remote code execution. By abusing the Instance Metadata Service (IMDS), they assume 
+        a high-privilege IAM role that permits them to retrieve a flag from AWS Secrets Manager.
+# Records the date upon which this scenario was last updated, in MM-DD-YYYY format
+- last-updated: 07-20-2026
+...

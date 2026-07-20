@@ -27,3 +27,6 @@ trash/
 .vscode/settings.json
 venv/
 myenv/
+
+# Ignore gemini.md scenario spec
+gemini.md
